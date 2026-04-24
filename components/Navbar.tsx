@@ -72,9 +72,8 @@ export default function Navbar() {
 
             {/* Mobile Mechanic dropdown */}
             <div
-              className="relative"
+              className="relative group"
               onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
             >
               <Link
                 href="/mobile-mechanic"
@@ -92,21 +91,21 @@ export default function Navbar() {
               </Link>
 
               {dropdownOpen && (
-                <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 bg-[#111] border border-white/[0.08] rounded-lg overflow-hidden min-w-[210px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] animate-fade-in-up">
-                  {MECH_LINKS.map((l, i) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      className={[
-                        'block px-5 py-[11px] text-[13px] transition-colors duration-150',
-                        'hover:bg-accent/[0.12] hover:text-white',
-                        i < MECH_LINKS.length - 1 ? 'border-b border-white/[0.04]' : '',
-                        pathname === l.href ? 'text-accent' : 'text-[#bbb]',
-                      ].join(' ')}
-                    >
-                      {l.label}
-                    </Link>
-                  ))}
+                <div className="absolute top-[calc(100%+8px)] left-0 bg-[#111] border border-white/[0.08] rounded-lg overflow-hidden min-w-[210px] shadow-[0_24px_64px_rgba(0,0,0,0.6)]" onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
+                    {MECH_LINKS.map((l, i) => (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        className={[
+                          'block px-5 py-3 text-[13px] transition-colors duration-150',
+                          'hover:bg-accent/[0.12] hover:text-white',
+                          i < MECH_LINKS.length - 1 ? 'border-b border-white/[0.04]' : '',
+                          pathname === l.href ? 'text-accent' : 'text-[#bbb]',
+                        ].join(' ')}
+                      >
+                        {l.label}
+                      </Link>
+                    ))}
                 </div>
               )}
             </div>
