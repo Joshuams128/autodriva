@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${barlow.variable} ${inter.variable}`}>
       <body>
         <Navbar />
-        <main className="pt-[72px]">{children}</main>
+        <main className="pt-[80px]">{children}</main>
         <Footer />
       </body>
     </html>
