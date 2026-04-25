@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Premium automotive services — detailing, mobile mechanic, inventory and more. More Than A Ride — It's DRIVA.",
   icons: {
-    icon: '/imgs/logo.png',
+    icon: '/imgs/logo1.png',
   },
 };
 
