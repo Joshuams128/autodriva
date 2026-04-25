@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: "AutoDriva — More Than A Ride, It's DRIVA",
   description:
     "Premium automotive services — detailing, mobile mechanic, inventory and more. More Than A Ride — It's DRIVA.",
+  icons: {
+    icon: '/imgs/Auto_Driva_Logo.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
