@@ -47,10 +47,6 @@ export default function InventoryPage() {
 
       <section className="py-20 px-20 bg-base max-[600px]:px-6">
         <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-3 gap-5 mb-10 max-[900px]:grid-cols-2 max-[600px]:grid-cols-1">
-            {CAR_CARDS.map(c => <CarCard key={c.model} car={c} />)}
-          </div>
-
           <div className="bg-accent/[0.08] border border-accent/20 rounded-[10px] px-9 py-7 text-center mb-16">
             <p className="font-barlow text-[22px] font-bold tracking-wide uppercase text-accent">
               More vehicles coming soon — check back regularly or request a specific vehicle below.

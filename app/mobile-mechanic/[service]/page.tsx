@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import BlueBtn from '@/components/BlueBtn';
+import FluidServicesWidget from '@/app/mobile-mechanic/_components/FluidServicesWidget';
+import FilterServicesWidget from '@/app/mobile-mechanic/_components/FilterServicesWidget';
 import { SUB_SERVICES } from '@/lib/data';
 
 interface Props {
@@ -38,45 +40,81 @@ export default async function SubServicePage({ params }: Props) {
       {/* Description + What's Included */}
       <section className="py-20 px-20 bg-base max-[600px]:px-6">
         <div className="max-w-[960px] mx-auto">
-          <div className="grid grid-cols-[1.1fr_0.9fr] gap-16 items-start max-[900px]:grid-cols-1">
+          {svc.hideServicesList ? (
             <div>
               <span className="block text-accent text-[11px] font-semibold tracking-[3px] uppercase mb-3.5">
                 About This Service
               </span>
               <h2
-                className="font-barlow font-black uppercase tracking-wide mb-6"
+                className="font-barlow font-black uppercase tracking-wide mb-9"
                 style={{ fontSize: 'clamp(30px,4vw,50px)' }}
               >
                 {svc.title}
               </h2>
-              <p className="text-[#888] text-[15px] leading-[1.85] mb-9">{svc.desc}</p>
-              <Link href="/contact">
+
+              <div className="bg-surface border border-white/[0.07] rounded-xl p-8 mb-9 space-y-6">
+                <p className="text-[#aaa] text-[15px] leading-[1.85]">
+                  {svc.included[0]}
+                </p>
+
+                <div className="border-t border-white/[0.07] pt-6">
+                  <p className="text-accent text-[18px] font-bold tracking-wide">
+                    {svc.included[1]}
+                  </p>
+                </div>
+
+                <div className="border-t border-white/[0.07] pt-6">
+                  <p className="text-[#666] text-[13px] leading-[1.6] italic">
+                    {svc.included[2]}
+                  </p>
+                </div>
+              </div>
+
+              <Link href={svc.bookingUrl || '/contact'} target={svc.bookingUrl ? '_blank' : undefined}>
                 <BlueBtn>Book This Service</BlueBtn>
               </Link>
             </div>
-
-            {/* What's Included */}
-            <div className="bg-surface border border-white/[0.07] rounded-xl px-8 py-9">
-              <h3 className="font-barlow text-[22px] font-black uppercase tracking-wide mb-7 text-accent">
-                What&apos;s Included
-              </h3>
-              {svc.included.map((item, i) => (
-                <div
-                  key={i}
-                  className={`flex gap-4 items-start mb-5 pb-5 ${
-                    i < svc.included.length - 1 ? 'border-b border-white/[0.05]' : ''
-                  }`}
+          ) : (
+            <div className="grid grid-cols-[1.1fr_0.9fr] gap-16 items-start max-[900px]:grid-cols-1">
+              <div>
+                <span className="block text-accent text-[11px] font-semibold tracking-[3px] uppercase mb-3.5">
+                  About This Service
+                </span>
+                <h2
+                  className="font-barlow font-black uppercase tracking-wide mb-6"
+                  style={{ fontSize: 'clamp(30px,4vw,50px)' }}
                 >
-                  <div className="w-7 h-7 rounded-md bg-accent/[0.15] border border-accent/25 flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 14 10" width="12" height="9" fill="none">
-                      <path d="M1 5l3 4L13 1" stroke="#1e6ef4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  {svc.title}
+                </h2>
+                <p className="text-[#888] text-[15px] leading-[1.85] mb-9">{svc.desc}</p>
+                <Link href={svc.bookingUrl || '/contact'} target={svc.bookingUrl ? '_blank' : undefined}>
+                  <BlueBtn>Book {svc.included.length > 1 ? 'these Services' : 'This Service'}</BlueBtn>
+                </Link>
+              </div>
+
+              {/* Services List */}
+              <div className="bg-surface border border-white/[0.07] rounded-xl px-8 py-9">
+                <h3 className="font-barlow text-[22px] font-black uppercase tracking-wide mb-7 text-accent">
+                  Available Services
+                </h3>
+                {svc.included.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex gap-4 items-start mb-5 pb-5 ${
+                      i < svc.included.length - 1 ? 'border-b border-white/[0.05]' : ''
+                    }`}
+                  >
+                    <div className="w-7 h-7 rounded-md bg-accent/[0.15] border border-accent/25 flex items-center justify-center flex-shrink-0">
+                      <svg viewBox="0 0 14 10" width="12" height="9" fill="none">
+                        <path d="M1 5l3 4L13 1" stroke="#1e6ef4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <p className="text-[#aaa] text-sm leading-[1.6] mt-1">{item}</p>
                   </div>
-                  <p className="text-[#aaa] text-sm leading-[1.6] mt-1">{item}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -99,20 +137,26 @@ export default async function SubServicePage({ params }: Props) {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-20 bg-base text-center max-[600px]:px-6">
-        <h2
-          className="font-barlow font-black uppercase tracking-[2px] mb-4"
-          style={{ fontSize: 'clamp(32px,4.5vw,56px)' }}
-        >
-          Ready to Book?
-        </h2>
-        <p className="text-[#666] text-[15px] mb-9">
-          Contact us to schedule your {svc.title.toLowerCase()} — we&apos;ll come to you.
-        </p>
-        <Link href="/contact">
-          <BlueBtn>Book This Service →</BlueBtn>
-        </Link>
-      </section>
+      {service !== 'filter-services' && (
+        <section className="py-20 px-20 bg-base text-center max-[600px]:px-6">
+          <h2
+            className="font-barlow font-black uppercase tracking-[2px] mb-4"
+            style={{ fontSize: 'clamp(32px,4.5vw,56px)' }}
+          >
+            Ready to Book?
+          </h2>
+          <p className="text-[#666] text-[15px] mb-9">
+            Contact us to schedule your {svc.title.toLowerCase()} — we&apos;ll come to you.
+          </p>
+          <Link href={svc.bookingUrl || '/contact'} target={svc.bookingUrl ? '_blank' : undefined}>
+            <BlueBtn>Book {svc.included.length > 1 ? 'these Services' : 'This Service'} →</BlueBtn>
+          </Link>
+        </section>
+      )}
+
+      {/* Square Booking Widget for specific services */}
+      {service === 'fluid-services' && <FluidServicesWidget />}
+      {service === 'filter-services' && <FilterServicesWidget />}
     </div>
   );
 }

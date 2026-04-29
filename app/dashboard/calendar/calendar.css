@@ -1,0 +1,83 @@
+/* Dark theme overrides for react-big-calendar */
+.rbc-calendar {
+  background: transparent;
+  color: #e5e5e5;
+  font-family: inherit;
+}
+
+.rbc-toolbar {
+  color: #e5e5e5;
+  margin-bottom: 14px;
+}
+
+.rbc-toolbar button {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e5e5e5;
+}
+
+.rbc-toolbar button:hover,
+.rbc-toolbar button:focus {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.rbc-toolbar button.rbc-active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-time-header,
+.rbc-time-content,
+.rbc-time-header-content,
+.rbc-day-bg,
+.rbc-month-row,
+.rbc-header,
+.rbc-time-slot,
+.rbc-day-slot {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.rbc-header {
+  background: #0d0d0d;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 8px 4px;
+}
+
+.rbc-off-range-bg {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.rbc-today {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.rbc-date-cell {
+  color: #ccc;
+  padding: 6px;
+}
+
+.rbc-date-cell.rbc-now {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.rbc-show-more {
+  color: #2563eb;
+  background: transparent;
+}
+
+.rbc-time-content > * + * > * {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: #2563eb;
+}
