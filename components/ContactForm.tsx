@@ -11,8 +11,35 @@ interface MiniFormProps {
 export function ContactFormMini({ heading }: MiniFormProps) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', time: '', msg: '' });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, type: 'mini' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send request');
+      }
+
+      setSent(true);
+    } catch (err) {
+      setError('Failed to send request. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-surface border border-white/[0.06] rounded-xl p-10">
@@ -27,7 +54,7 @@ export function ContactFormMini({ heading }: MiniFormProps) {
           <p className="text-[#aaa] text-[15px]">Request received! We&apos;ll be in touch soon.</p>
         </div>
       ) : (
-        <form onSubmit={e => { e.preventDefault(); setSent(true); }} className="grid gap-4">
+        <form onSubmit={submit} className="grid gap-4">
           {(['name', 'email', 'phone', 'time'] as const).map(k => (
             <input
               key={k}
@@ -45,11 +72,17 @@ export function ContactFormMini({ heading }: MiniFormProps) {
             rows={3}
             className={`${INPUT} resize-y`}
           />
+          {error && <p className="text-red-400 text-sm">{error}</p>}
           <button
             type="submit"
-            className="bg-accent text-white font-barlow text-[17px] font-bold tracking-[1.5px] uppercase px-9 py-[14px] rounded border border-accent cursor-pointer hover:shadow-[0_0_30px_rgba(30,110,244,0.45)] hover:-translate-y-px transition-all duration-200"
+            disabled={loading}
+            className={[
+              'bg-accent text-white font-barlow text-[17px] font-bold tracking-[1.5px] uppercase px-9 py-[14px] rounded border border-accent',
+              loading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:shadow-[0_0_30px_rgba(30,110,244,0.45)] hover:-translate-y-px',
+              'transition-all duration-200',
+            ].join(' ')}
           >
-            Submit Request
+            {loading ? 'Submitting…' : 'Submit Request'}
           </button>
         </form>
       )}
@@ -61,13 +94,33 @@ export function ContactFormFull() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', msg: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSent(true); }, 1200);
+    setError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, type: 'full' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      setSent(true);
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -108,6 +161,7 @@ export function ContactFormFull() {
             rows={4}
             className={`${INPUT} resize-y`}
           />
+          {error && <p className="text-red-400 text-sm">{error}</p>}
           <button
             type="submit"
             disabled={loading}

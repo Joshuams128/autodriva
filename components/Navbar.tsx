@@ -29,9 +29,10 @@ function NavLink({ href, active, children }: { href: string; active: boolean; ch
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [scrolled,     setScrolled]     = useState(false);
-  const [mobileOpen,   setMobileOpen]   = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrolled,            setScrolled]            = useState(false);
+  const [mobileOpen,          setMobileOpen]          = useState(false);
+  const [dropdownOpen,        setDropdownOpen]        = useState(false);
+  const [mobileMechDropdown,  setMobileMechDropdown]  = useState(false);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 30);
@@ -136,27 +137,65 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed top-[72px] left-0 right-0 z-[999] bg-black/[0.98] backdrop-blur-2xl border-b border-white/[0.08] px-8 pt-6 pb-8">
-          {([
-            { label: 'Home',            href: '/',                  indent: false },
-            { label: 'Inventory',       href: '/inventory',         indent: false },
-            { label: 'Detailing',       href: '/detailing',         indent: false },
-            { label: 'Mobile Mechanic', href: '/mobile-mechanic',   indent: false },
-            ...MECH_LINKS.map(l => ({ ...l, indent: true })),
-            { label: 'Consultant',      href: '/contact',           indent: false },
-          ] as Array<{ label: string; href: string; indent: boolean }>).map(l => (
-            <Link
-              key={l.href + (l.indent ? '_sub' : '')}
-              href={l.href}
-              className={[
-                'block w-full font-barlow font-bold tracking-[1px] uppercase',
-                'border-b border-white/[0.04] transition-colors duration-150',
-                l.indent ? 'text-[17px] py-1.5 pl-5' : 'text-[22px] py-2.5',
-                pathname === l.href ? 'text-accent' : 'text-[#ccc]',
-              ].join(' ')}
+          <Link
+            href="/"
+            className="block w-full font-barlow font-bold tracking-[1px] uppercase text-[22px] py-2.5 border-b border-white/[0.04] transition-colors duration-150 text-[#ccc] hover:text-white"
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/inventory"
+            className="block w-full font-barlow font-bold tracking-[1px] uppercase text-[22px] py-2.5 border-b border-white/[0.04] transition-colors duration-150 text-[#ccc] hover:text-white"
+          >
+            Inventory
+          </Link>
+
+          <Link
+            href="/detailing"
+            className="block w-full font-barlow font-bold tracking-[1px] uppercase text-[22px] py-2.5 border-b border-white/[0.04] transition-colors duration-150 text-[#ccc] hover:text-white"
+          >
+            Detailing
+          </Link>
+
+          {/* Mobile Mechanic Dropdown */}
+          <button
+            onClick={() => setMobileMechDropdown(o => !o)}
+            className="w-full flex items-center justify-between font-barlow font-bold tracking-[1px] uppercase text-[22px] py-2.5 border-b border-white/[0.04] transition-colors duration-150 text-[#ccc] hover:text-white bg-transparent border-0 cursor-pointer"
+          >
+            Mobile Mechanic
+            <svg
+              width="12" height="8" viewBox="0 0 10 6" fill="currentColor"
+              className={`transition-transform duration-200 ${mobileMechDropdown ? 'rotate-180' : ''}`}
             >
-              {l.label}
-            </Link>
-          ))}
+              <path d="M0 0l5 6 5-6H0z" />
+            </svg>
+          </button>
+
+          {mobileMechDropdown && (
+            <div className="bg-white/[0.04] border-b border-white/[0.04]">
+              {MECH_LINKS.map(l => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={[
+                    'block w-full font-barlow font-bold tracking-[1px] uppercase',
+                    'text-[17px] py-2 pl-5 transition-colors duration-150',
+                    pathname === l.href ? 'text-accent' : 'text-[#888]',
+                  ].join(' ')}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <Link
+            href="/contact"
+            className="block w-full font-barlow font-bold tracking-[1px] uppercase text-[22px] py-2.5 border-b border-white/[0.04] transition-colors duration-150 text-[#ccc] hover:text-white"
+          >
+            Consultant
+          </Link>
         </div>
       )}
     </>
